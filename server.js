@@ -10,8 +10,10 @@ let pathToStyle = path.join(__dirname, "static", "style.css")
 let style = fs.readFileSync(pathToStyle, "utf-8")
 let pathToScript = path.join(__dirname, "static", "script.js")
 let script = fs.readFileSync(pathToScript, "utf-8")
+let { Server } = require("socket.io")
 
-http.createServer((req, res) => {
+
+let set = http.createServer((req, res) => {
     switch(req.url){
         case "/":
             res.writeHead(200, {"content-type": "text/html"})
@@ -32,4 +34,21 @@ http.createServer((req, res) => {
 }).listen(3000, () => {
     console.log("Server started")
 })  
+
+let io = new Server(set)
+
+let messages = []
+
+io.on("connection", function(s){
+    console.log(s.id)
+    io.on("message", (data)=>{
+        console.log(data)
+    })
+})
+
+io.on("message", (data)=>{
+    console.log(data)
+    messasages.push(data)
+    s.emit("update", JSON.stringify(messages))
+})
 

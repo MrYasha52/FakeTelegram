@@ -14,41 +14,38 @@ let { Server } = require("socket.io")
 
 
 let set = http.createServer((req, res) => {
-    switch(req.url){
+    switch (req.url) {
         case "/":
-            res.writeHead(200, {"content-type": "text/html"})
+            res.writeHead(200, { "content-type": "text/html" })
             res.end(index)
             break
         case "/style.css":
-            res.writeHead(200, {"content-type": "text/css"})
+            res.writeHead(200, { "content-type": "text/css" })
             res.end(style)
             break
         case "/script.js":
-            res.writeHead(200, {"content-type": "text/js"})
+            res.writeHead(200, { "content-type": "text/js" })
             res.end(script)
             break
         default:
-            res.writeHead(404, {"content-type": "text/html"})
+            res.writeHead(404, { "content-type": "text/html" })
             res.end("<h1>404</h1>")
     }
 }).listen(3000, () => {
     console.log("Server started")
-})  
+})
 
 let io = new Server(set)
 
 let messages = []
 
-io.on("connection", function(s){
+io.on("connection", function (s) {
     console.log(s.id)
-    io.on("message", (data)=>{
+    s.on("message", (data) => {
         console.log(data)
+        messages.push(data)
+        io.emit("update", JSON.stringify(messages))
     })
 })
 
-io.on("message", (data)=>{
-    console.log(data)
-    messasages.push(data)
-    s.emit("update", JSON.stringify(messages))
-})
-
+db.getUser().then(res=>console.log(res)).catch(err=>console.log(err))  

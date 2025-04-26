@@ -11,7 +11,7 @@ let db = mysql.createConnection({
 
 let asyncDB = db.promise()
 
-async function getUser(){
+async function getUsers(){
     try{
         let [rows, fields] = await asyncDB.query("SELECT * FROM user")
         return rows
@@ -20,6 +20,29 @@ async function getUser(){
     }
 }
 
+async function getMessages() {
+    try {
+        let [rows, fields] = await asyncDB.query("select m.id, m.content, m.author_id, u.login from Message as m JOIN user AS u ON m.author_id = u.id");
+        return rows;
+    } catch (err) {
+        throw err.message;
+    }
+}
+
+
+async function addMessage(content, userId) {
+    try {
+        let [rows, fields] = await asyncDB.query("insert into Message(content, author_id) values(?, ?)", [content, userId]);
+        return rows;
+    } catch (err) {
+        throw err.message;
+    }
+}
+
+
 module.exports = {
-    getUser
+    getUsers,
+    getMessages,
+    addMessage
 };
+

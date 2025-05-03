@@ -20,6 +20,24 @@ async function getUsers(){
     }
 }
 
+async function addUser(login, password){
+    try{
+        let [rows, fields] = await asyncDB.query("insert into user(login, password) values(?, ?)", [login, password])
+        return rows
+    }catch(err){
+        throw err.message
+    }
+}
+
+async function checkExists(login){
+    try{
+        let [rows, fields] = await asyncDB.query("SELECT * FROM user WHERE login = ?", [login])
+        return rows.length > 0
+    }catch(err){
+        throw err.message
+    }
+}
+
 async function getMessages() {
     try {
         let [rows, fields] = await asyncDB.query("select m.id, m.content, m.author_id, u.login from Message as m JOIN user AS u ON m.author_id = u.id");
@@ -43,6 +61,8 @@ async function addMessage(content, userId) {
 module.exports = {
     getUsers,
     getMessages,
-    addMessage
+    addMessage,
+    checkExists,
+    addUser
 };
 

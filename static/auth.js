@@ -19,8 +19,8 @@ registerForm.addEventListener("submit", (e) => {
         body: JSON.stringify({
             login,
             password
-        }).then((res) =>res.json()).then(res => {
+        }).then}).then((res) =>res.json()).then(res => {
             console.log(res)
         })
-    })
+    
 })

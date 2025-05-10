@@ -58,12 +58,13 @@ header{
     padding: 0.5rem 1rem;
 }
 
-main.register{
+main.register, main.login   {
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.register form{
+.register form, .login form{
     display: flex;
     flex-direction: column;
     background-color: palegoldenrod;

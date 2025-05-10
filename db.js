@@ -57,12 +57,22 @@ async function addMessage(content, userId) {
     }
 }
 
+async function getUserByLogin(login) {
+    try {
+        let [rows, fields] = await asyncDB.query("SELECT * FROM user WHERE login = ?", [login])
+        return rows
+    } catch (err) {
+        throw err.message
+    }
+}
+
 
 module.exports = {
     getUsers,
     getMessages,
     addMessage,
     checkExists,
-    addUser
+    addUser,
+    getUserByLogin
 };
 

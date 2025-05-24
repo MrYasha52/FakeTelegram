@@ -4,24 +4,25 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     height: 100vh;
-    background-color: yellow;
+    background: linear-gradient(45deg, pink, white);
     display: flex;
     flex-direction: column;
     font-family: monospace;
 }
 
-main{
+main {
     flex-grow: 1;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    padding: 0.3rem;
     justify-content: flex-end;
 }
 
-.message{
+.message {
     background: palevioletred;
     width: fit-content;
     padding: 0.5rem;
@@ -33,61 +34,70 @@ main{
     align-self: flex-end;
 }
 
-header{
-    background-color: palegoldenrod;
+
+header {
+    background-color: palevioletred;
     color: white;
     text-align: center;
     padding: 0.3rem;
 }
 
-.form{
+.form {
     display: flex;
+    border-top: 2px solid palevioletred;
 }
 
-.form input{
+.form input {
     flex-grow: 1;
     padding: 0.5rem;
     font-size: 1.2rem;
     border: none;
 }
 
-.form button{
-    background-color: palegoldenrod;
+.form button {
+    background-color: palevioletred;
     border: none;
     font-size: 1.2rem;
     padding: 0.5rem 1rem;
+    color: white;
 }
 
-main.register, main.login   {
-    display: flex;
+main.register, main.login {
     justify-content: center;
     align-items: center;
 }
 
-.register form, .login form{
+.register form, .login form {
     display: flex;
     flex-direction: column;
-    background-color: palegoldenrod;
+    background-color: palevioletred;
     padding: 1rem;
     border-radius: 0.5rem;
     min-width: 400px;
     color: white;
     font-size: 1.2rem;
+    text-align: center;
 }
 
-label, button{
+label, button {
     margin-top: 1rem;
 }
 
-form input{
-    padding: 0.3rem 1rem; 
-    border-radius: 2rem;
-    border: none;
-}
-
-form button{
-    background-color: white;
+form input {
     padding: 0.3rem 1rem;
     border-radius: 2rem;
     border: none;
 }
+
+form button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 2rem;
+}
+
+
+
+
+

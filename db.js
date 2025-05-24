@@ -7,46 +7,54 @@ let db = mysql.createConnection({
     user: process.env.USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-})
+});
 
-let asyncDB = db.promise()
+let asyncDB = db.promise();
 
-async function getUsers(){
-    try{
-        let [rows, fields] = await asyncDB.query("SELECT * FROM user")
-        return rows
-    }catch(err){
-        throw err.message
-    }
-}
-
-async function addUser(login, password){
-    try{
-        let [rows, fields] = await asyncDB.query("insert into user(login, password) values(?, ?)", [login, password])
-        return rows
-    }catch(err){
-        throw err.message
-    }
-}
-
-async function checkExists(login){
-    try{
-        let [rows, fields] = await asyncDB.query("SELECT * FROM user WHERE login = ?", [login])
-        return rows.length > 0
-    }catch(err){
-        throw err.message
-    }
-}
-
-async function getMessages() {
+async function getUsers() {
     try {
-        let [rows, fields] = await asyncDB.query("select m.id, m.content, m.author_id, u.login from Message as m JOIN user AS u ON m.author_id = u.id");
+        let [rows, fields] = await asyncDB.query("select * from User");
         return rows;
     } catch (err) {
         throw err.message;
     }
 }
 
+async function checkExists(login) {
+    try {
+        let [rows, fields] = await asyncDB.query("SELECT * FROM User WHERE login = ?", [login]);
+        return rows.length > 0;
+    } catch (err) {
+        throw err.message;
+    }
+}
+
+async function getUser(login) {
+    try {
+        let [rows, fields] = await asyncDB.query("SELECT * FROM User WHERE login = ?", [login]);
+        return rows
+    } catch (err) {
+        throw err.message;
+    }
+}
+
+async function addUser(login, password) {
+    try {
+        let [rows, fields] = await asyncDB.query("insert into User(login, password) values(?, ?)", [login, password]);
+        return rows;
+    } catch (err) {
+        throw err.message;
+    }
+}
+
+async function getMessages() {
+    try {
+        let [rows, fields] = await asyncDB.query("select m.id, m.content, m.author_id, u.login from Message as m JOIN User AS u ON m.author_id = u.id");
+        return rows;
+    } catch (err) {
+        throw err.message;
+    }
+}
 
 async function addMessage(content, userId) {
     try {
@@ -57,22 +65,11 @@ async function addMessage(content, userId) {
     }
 }
 
-async function getUserByLogin(login) {
-    try {
-        let [rows, fields] = await asyncDB.query("SELECT * FROM user WHERE login = ?", [login])
-        return rows
-    } catch (err) {
-        throw err.message
-    }
-}
-
-
 module.exports = {
     getUsers,
     getMessages,
     addMessage,
     checkExists,
     addUser,
-    getUserByLogin
+    getUser
 };
-

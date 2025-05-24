@@ -1,11 +1,18 @@
-// document.body.innerHTML = "Hello"
-let socket = io()
-document.querySelector(".form button").addEventListener("click", () => {
-    let input = document.querySelector(".form input")
-    let text = input.value
-    input.value = ""
-    socket.emit("message", JSON.stringify({ name: "user", text }))
-})
+let socket = io();
+
+let cookies = document.cookie?.split("; ")
+let login = cookies.find(el => el.startsWith("login")).split("=")[1]
+let id = cookies.find(el => el.startsWith("id")).split("=")[1]
+console.log(login)
+
+
+document.querySelector(".form button").addEventListener("click", function () {
+    let input = document.querySelector(".form input");
+    console.log(input.value);
+    let text = input.value;
+    input.value = "";
+    socket.emit("message", JSON.stringify({ name: id, text }));
+});
 
 socket.on("update", function (data) {
     console.log(JSON.parse(data));
@@ -13,8 +20,14 @@ socket.on("update", function (data) {
     main.innerHTML = JSON.parse(data)
         .map(
             (message) => {
+                
                 return `<div class="message">${message.name}: ${message.text}</div>`
             }
         )
         .join("");
 });
+
+function logout() {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.assign("register")
+}
